@@ -9,6 +9,7 @@
 #include "Hero.h"
 #include "Character.h"
 #include "Bullet.h"
+#include "MainMenuScreen.h"
 #include <random> 
 
 namespace Engine {
@@ -20,6 +21,8 @@ namespace Engine {
 		virtual void Init();
 		virtual void Update();
 		virtual void Render();
+		void ShowMainMenu();
+		void StartGame();
 	private:
 		Texture* texture = NULL, * texture2 = NULL;
 		float spawnTimer;
@@ -27,11 +30,9 @@ namespace Engine {
 		Hero* hero;
 		vector<Bullet*> inUseBullets;
 		vector<Bullet*> readyBullets;
-		void UpdateCollisions();
-		//void UpdateProjectiles();
 		void SpawnBullets();
-		bool CheckCollisionB(Character* targetA, Character* targetB);
-		bool CheckCollisionA(Bullet* targetA, Character* targetB);
+		//MainMenuScreen* mainMenu;
+		bool inGame;
 		float timeInterval = 0, xBulletVel = 0, yVelocity = 0;
 	};
 }

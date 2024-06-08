@@ -166,10 +166,13 @@
     <ClInclude Include="Lesson07.h" />
     <ClInclude Include="Lesson08.h" />
     <ClInclude Include="Lesson09.h" />
+    <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Quad.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="SATCollision.h" />
+    <ClInclude Include="Screen.h" />
+    <ClInclude Include="ScreenManager.h" />
     <ClInclude Include="Setting.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Sound.h" />
@@ -190,6 +193,7 @@
     <ClCompile Include="Demo.cpp" />
     <ClCompile Include="Hero.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Launcher.cpp" />
     <ClCompile Include="Lesson01.cpp" />
     <ClCompile Include="Lesson02.cpp" />
     <ClCompile Include="Lesson03.cpp" />
@@ -199,10 +203,13 @@
     <ClCompile Include="Lesson07.cpp" />
     <ClCompile Include="Lesson08.cpp" />
     <ClCompile Include="Lesson09.cpp" />
+    <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="Quad.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="SATCollision.cpp" />
+    <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="ScreenManager.cpp" />
     <ClCompile Include="Setting.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Sound.cpp" />

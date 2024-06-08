@@ -101,8 +101,50 @@ void Engine::GAI02::Update()
 	}
 
 	hero->Update(GetGameTime());
-	
+	for (auto bIter = inUseBullets.begin(); bIter != inUseBullets.end(); ) { // Use iterator for inUseBullets
+		Bullet* b = *bIter;
+		b->Update(GetGameTime());
+
+		for (auto eIter = enemies.begin(); eIter != enemies.end(); ) { // Use iterator for enemies
+			Enemy* e = *eIter;
+
+			if (b->boundingBox.CollideWith(&e->boundingBox)) {
+				// Remove bullet
+				b->SetPosition(0.0f, 0.0f);
+				b->xVelocity = 0.0f;
+				b->yVelocity = 0.0f;
+				readyBullets.push_back(b);
+
+				bIter = inUseBullets.erase(bIter); // Erase and update iterator
+
+				// Remove enemy
+				eIter = enemies.erase(eIter);  // Erase and update iterator
+				delete e;
+
+				break; // Break out of inner loop since bullet is gone
+			}
+			else {
+				++eIter; // Move to the next enemy if no collision
+			}
+		}
+		if (bIter != inUseBullets.end()) { // Check if bullet still exists
+			++bIter; // Move to the next bullet if not erased
+		}
+	}
 }
+
+void Engine::GAI02::Render() {
+	for (Enemy* enemy : enemies) {
+		enemy->Draw();
+	}
+	hero->Draw();
+
+	for (Bullet* b : inUseBullets) {
+		b->Draw();
+	}
+
+}
+
 
 void Engine::GAI02::SpawnBullets()
 {
@@ -118,94 +160,19 @@ void Engine::GAI02::SpawnBullets()
 
 }
 
-bool Engine::GAI02::CheckCollisionB(Character* targetA, Character* targetB) {
-	// Get the positions of the projectile and the bot
-	vec2 PosA = targetA->GetPosition();
-	vec2 PosB = targetB->GetPosition();
 
-	// Calculate the distance between the projectile and the bot
-	float distance = length(PosA - PosB);
-
-	float collisionThreshold = 20.0f;
-
-	if (distance < collisionThreshold) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-bool Engine::GAI02::CheckCollisionA(Bullet* targetA, Character* targetB) {
-	// Get the positions of the projectile and the bot
-	vec2 PosA = targetA->GetPosition();
-	vec2 PosB = targetB->GetPosition();
-
-	// Calculate the distance between the projectile and the bot
-	float distance = length(PosA - PosB);
-
-	float collisionThreshold = 20.0f;
-
-	if (distance < collisionThreshold) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
-
-void Engine::GAI02::UpdateCollisions() {
-	for (auto its = enemies.begin(); its != enemies.end();) {
-		Enemy* enemy = *its;
-		for (auto it = inUseBullets.begin(); it != inUseBullets.end();) {
-			Bullet* b = *it;
-			vec2 velocity = vec2(0, 1); // Velocity pointing upwards
-			vec2 position = b->GetPosition();
-			vec2 newPosition = position + (velocity * 1.f);
-
-			b->SetPosition(newPosition.x, newPosition.y);
-			b->Update(GetGameTime());
-
-			if (CheckCollisionA(b, enemy)) {
-				float newX = disX(gen);
-				delete b;
-				it = inUseBullets.erase(it);
-				enemy->SetPosition(newX / 2, setting->screenHeight);
-			}
-			else if (CheckCollisionB(enemy, hero)) {
-				state = Engine::State::EXIT;
-			}
-			else {
-				++it;
-			}
-		}
-	}
-	
-}
-
-void Engine::GAI02::Render()
-{
-	for (Enemy* enemy : enemies) {
-		enemy->Draw();
-	}
-	for (Bullet* b : inUseBullets) {
-		b->Draw();
-	}
-	hero->Draw();
-}
-
-int main(int argc, char** argv) {
-	Engine::Setting* setting = new Engine::Setting();
-	setting->windowTitle = "Shoot 'em up!!!";
-	setting->screenWidth = 1600;
-	setting->screenHeight = 900;
-	setting->windowFlag = Engine::WindowFlag::WINDOWED;
-	setting->vsync = false;
-	setting->targetFrameRate = 0;
-	Engine::Game* game = new Engine::GAI02(setting);
-	game->Run();
-	delete setting;
-	delete game;
-
-    return 0;
-}
+//int main(int argc, char** argv) {
+//	Engine::Setting* setting = new Engine::Setting();
+//	setting->windowTitle = "Shoot 'em up!!!";
+//	setting->screenWidth = 1600;
+//	setting->screenHeight = 900;
+//	setting->windowFlag = Engine::WindowFlag::WINDOWED;
+//	setting->vsync = false;
+//	setting->targetFrameRate = 0;
+//	Engine::Game* game = new Engine::GAI02(setting);
+//	game->Run();
+//	delete setting;
+//	delete game;
+//
+//    return 0;
+//}

@@ -7,6 +7,7 @@ namespace Engine {
 	class Bullet
 	{
 	public:
+		BoundingBox boundingBox;
 		Bullet(Sprite* sprite);
 		~Bullet();
 		float xVelocity, yVelocity = 0;

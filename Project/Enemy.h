@@ -8,6 +8,7 @@ namespace Engine {
 	class Enemy:public Engine::Character
 	{
 	public:
+		BoundingBox boundingBox;
 		Enemy(Texture* texture, Shader* shader, Quad* quad);
 		~Enemy();
 		void Update(float deltaTime);
